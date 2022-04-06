@@ -1,7 +1,23 @@
 {% extends "base.html" %} 
-{% block title %}accueil{% endblock %}
+{% block title %}{{titre}}{% endblock %}
 {% block content %}
-<h1>
-    login
-</h1>
+<div class="container ">
+    <div class="authe">
+        <div>
+          <form action="{{ url_for('auth.login') }}" method="post">
+        <div class="form-group">
+            {{form.csrf_token}}
+        </div>
+        <div class="form-group text-center">
+            {{form.email.label}}
+            {{form.email(class='form-control',placeholder='email')}}
+            {{form.password.label}}
+            {{form.password(class='form-control',placeholder='mot de passe')}}
+            <br>
+            {{form.submit(class='btn btn-primary',value='connexion')}}
+        </div>
+    </form>
+    </div></div></div>
+
+
 {% endblock %}
