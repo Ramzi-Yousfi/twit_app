@@ -2,7 +2,7 @@ from flask import Flask,render_template
 import os
 import config
 from dotenv import load_dotenv 
-
+from flask_login import LoginManager
 
 
 app = Flask(__name__)
@@ -19,12 +19,19 @@ from app.models import db,users
 db.create_all()
 db.session.commit()
 
+#Login : connect the login manager to ower app and the specified view
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
 
 #Small HTTP Errors Handling
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('errors/404.html'), 404
 
+@login_manager.user_loader
+def load_user(user_id):
+    return users.query.get(int(user_id))
 
 #Blueprints
 #Blueprint for the non-auth parts of the app
