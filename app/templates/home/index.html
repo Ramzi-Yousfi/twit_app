@@ -1,7 +1,56 @@
 {% extends "base.html" %} 
 {% block title %}accueil{% endblock %}
 {% block content %}
-<h1>
-    Bienvenue sur le site de la maison des ligues de Lorraine
-</h1>
+{% if not current_user.is_authenticated %}
+<div class="container header">
+    <div class="row">
+        <div class="col-sm12- col-md-6 headingCode">
+            <h1><span>Tweet</span> #Smile!
+            #FlaskProject</h1>
+        </div>
+        <div class="col-sm12- col-md-6 imgHeader">
+            <img src="https://media.istockphoto.com/vectors/front-end-web-page-mobile-app-design-creating-and-settings-vector-id1132421352?s=612x612" alt="">
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container showInfoCard">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <img src="https://img-19.commentcamarche.net/WNCe54PoGxObY8PCXUxMGQ0Gwss=/480x270/smart/d8c10e7fd21a485c909a5b4c5d99e611/ccmcms-commentcamarche/20456790.jpg" class="card-img-top" alt="background profile">
+        <div class="photo_profile_display">
+          <img src="" alt="">
+        </div>
+        <h3>{{ current_user.username }}</h3>
+        <div class="card-body">
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 main-content">
+      <div class="main-content-form clearfix">
+        <form action="" method="POST">
+          <textarea name="tweet" cols="30" rows="5" placeholder="what's happens?"></textarea>
+          <button class='btn btn-primary' type="submit">Tweet</button>
+        </form>
+      </div>
+      <div class="main-content-posts">
+        <div class="post-component">
+          <div class="post-component-author">
+            <img src="http://www.gravatar.com/avatar/59e45dd4f228319ab7df078385546aa5?s=100&d=identicon&r=g" alt="author">
+            <h3>Author</h3>
+            <span>date</span>
+          </div>
+          <div class="post-component-posts">
+            <p>
+              post content
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
 {% endblock %}

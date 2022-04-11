@@ -1,3 +1,11 @@
-from app import app 
+
+#define marshmallow == ma
+from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy(app)
+from flask_migrate import Migrate
+
+db = SQLAlchemy()
+ma = Marshmallow()
+
+# migrate = Migrate(app, db)
+migrate = Migrate()

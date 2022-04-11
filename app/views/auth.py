@@ -1,10 +1,12 @@
+
 from webbrowser import get
-from flask import render_template, flash, redirect, url_for, request,Blueprint
+from flask import render_template, flash, redirect, url_for, request,Blueprint,session
 from app.forms.users import LoginForm , RegisterForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models.users import User
 from app import db 
 from flask_login import login_user, logout_user, login_required,current_user
+
 from threading import Timer
 
 
@@ -21,16 +23,14 @@ def login():
     password = request.form.get('password')
     connect = ''
     user = User.query.filter_by(email=email).first()
-    if not user or not check_password_hash(user.password, password):
+
+    if user is None or  check_password_hash(user.password, password) == False:
         connect = 'no'
         flash('Email ou mot de passe incorrect')
         return render_template('auth/login.html', form=form ,titre=title ,connect=connect)
-    else:
-        flash('Vous êtes connecté')
-        time = Timer(10.0 ,redirect(url_for('home.index')))
-        return time.start()
-
-
+    login_user(user)
+    session['username'] = current_user.username
+    return redirect(url_for('home.index'))
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -43,7 +43,7 @@ def register():
     email = request.form.get('email')
     username = request.form.get('username')
     password = request.form.get('password')
-    
+    print(password)
     user = User.query.filter_by(email=email).first()
     red = ''
     if user:
@@ -59,3 +59,10 @@ def register():
     else:
         flash('Veuillez vérifier vos informations')
         return render_template('auth/register.html', form=form, titre=title)
+
+@auth.route('/logout')
+@login_required
+def logout():
+    session.pop('username', None)
+    logout_user()
+    return redirect(url_for('home.index'))

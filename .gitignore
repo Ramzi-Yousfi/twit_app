@@ -1,0 +1,13 @@
+# Byte-compiled
+__pycache__/
+*.pyc
+
+# environment variables file
+.env
+env/
+
+# vscode editor settings
+.vscode/
+
+# migrations
+migrations/
